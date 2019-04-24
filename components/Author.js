@@ -3,6 +3,8 @@ import {View, Text, TouchableOpacity, TextInput, StyleSheet, Button} from 'react
 import {welcomeMsgReactNative} from '../containers/actions';
 import {saveAuthorInFirebase} from '../containers/async'
 import { connect } from 'react-redux';
+import {compose} from 'redux'
+import { firestoreConnect } from 'react-redux-firebase'
 
 
 export class Author extends React.Component {
@@ -99,6 +101,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
+    debugger
     return {
         welcomeMsg: state.firebaseExamples.welcomeMsg,
         isCreated: state.firebaseExamples.isCreated,
@@ -114,4 +117,6 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Author);
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([
+    {collection: 'authors'}
+])) (Author);
